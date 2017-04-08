@@ -27,6 +27,5 @@ public class NewCategory extends Activity {
             Log.w("NewCategoryListener", tv.getText().toString());
             db.createCategory(tv.getText().toString());
         }
-
     }
 }

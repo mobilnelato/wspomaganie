@@ -3,4 +3,29 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView android:id="@+id/categoryheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="13dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+    <Button android:id="@+id/generatequiz" style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/categoryheader"
+        android:text="@string/generatequiz" />
+
+    <Button android:id="@+id/seequestions" style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/generatequiz" android:text="@string/seequestions" />
+
+    <Button android:id="@+id/addquestion" style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_below="@+id/seequestions"
+        android:layout_alignParentLeft="true"
+       android:text="@string/addquestion" />
+
 </RelativeLayout>
