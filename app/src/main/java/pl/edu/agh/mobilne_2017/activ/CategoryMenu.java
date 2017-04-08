@@ -7,32 +7,40 @@ import android.view.View;
 import android.widget.TextView;
 
 import pl.edu.agh.mobilne_2017.R;
+import pl.edu.agh.mobilne_2017.activ.categoryActiv.AddQuestionActivity;
+import pl.edu.agh.mobilne_2017.activ.categoryActiv.PreviewQuestionsActivity;
+import pl.edu.agh.mobilne_2017.activ.categoryActiv.TakeQuizActivity;
 
-public class CategoryMenu extends Activity{
+public class CategoryMenu extends Activity {
     private String category;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_category_layout);
-        category =  this.getIntent().getExtras().getString("categoryId");
+
+
+        //a moze to w on rezume ???
+        category = this.getIntent().getExtras().getString("categoryId");
         TextView tv = (TextView) findViewById(R.id.categoryheader);
-        tv.setText("Category: "+category);
+        tv.setText("Category: " + category);
+        findViewById(R.id.generatequiz).setOnClickListener(new TakeQuizListener(category));
+        findViewById(R.id.seequestions).setOnClickListener(new PreviewQuestionsListener(category));
+        findViewById(R.id.addquestion).setOnClickListener(new NewQuestionListener(category));
 
-
-        //teraz dodac listenery
     }
 
-    private class NewQuestionListener implements View.OnClickListener{
+    private class NewQuestionListener implements View.OnClickListener {
 
         private final String category;
-        NewQuestionListener(String category){
+
+        NewQuestionListener(String category) {
             this.category = category;
         }
 
         @Override
         public void onClick(View v) {
-            Intent categoryActivity = new Intent(getBaseContext(), CategoryMenu.class);
+            Intent categoryActivity = new Intent(getBaseContext(), AddQuestionActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("categoryId", category);
             categoryActivity.putExtras(bundle);
@@ -40,17 +48,17 @@ public class CategoryMenu extends Activity{
         }
     }
 
-
-    private class PreviewQuestionsListener implements View.OnClickListener{
+    private class PreviewQuestionsListener implements View.OnClickListener {
 
         private final String category;
-        PreviewQuestionsListener(String category){
+
+        PreviewQuestionsListener(String category) {
             this.category = category;
         }
 
         @Override
         public void onClick(View v) {
-            Intent categoryActivity = new Intent(getBaseContext(), CategoryMenu.class);
+            Intent categoryActivity = new Intent(getBaseContext(), PreviewQuestionsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("categoryId", category);
             categoryActivity.putExtras(bundle);
@@ -58,17 +66,17 @@ public class CategoryMenu extends Activity{
         }
     }
 
-
-    private class TakeQuizListener implements View.OnClickListener{
+    private class TakeQuizListener implements View.OnClickListener {
 
         private final String category;
-        TakeQuizListener(String category){
+
+        TakeQuizListener(String category) {
             this.category = category;
         }
 
         @Override
         public void onClick(View v) {
-            Intent categoryActivity = new Intent(getBaseContext(), CategoryMenu.class);
+            Intent categoryActivity = new Intent(getBaseContext(), TakeQuizActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("categoryId", category);
             categoryActivity.putExtras(bundle);

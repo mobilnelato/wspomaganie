@@ -9,6 +9,10 @@
     <string name="seequestions">Preview questions</string>
     <string name="generatequiz">Take quiz</string>
 
+    <!--new ques-->
+    <string name="saveques">Save question</string>
+    <string name="questioncontent">Question:</string>
 
 
+    questioncontent
 </resources>

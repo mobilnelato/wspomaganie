@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/new_question_id"
+    android:layout_height="match_parent">
+
+
+    <TextView android:id="@+id/textView2" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/questioncontent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="10dp" />
+
+    <EditText android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:ems="30"
+        android:paddingLeft="10dp"/>
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/closedopen"
+        android:layout_below="@+id/content"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentLeft="true"
+        android:text="Type"
+        android:textOn="Open"
+        android:textOff="Closed" />
+
+    <Button android:id="@+id/savequestion"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/newcattitle"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="13dp"
+        android:text="@string/saveques" />
+</RelativeLayout>
