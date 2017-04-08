@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">mobilne-2017</string>
+    <string name="savecat">Save</string>
+    <string name="newcategory">New category name:</string>
 </resources>
