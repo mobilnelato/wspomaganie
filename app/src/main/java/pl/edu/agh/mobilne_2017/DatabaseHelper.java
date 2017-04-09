@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.edu.agh.mobilne_2017.tables.CategoryTable;
 import pl.edu.agh.mobilne_2017.tables.CheckboxAnswersTable;
@@ -62,6 +64,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+
+    int getNumberOfQuestions(String category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String countQuery = "select COUNT(*) from " + QuestionsTable.SQLITE_TABLE+" where "+QuestionsTable.CATEGORY+" like "+category;
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int cnt = cursor.getCount();
+        cursor.close();
+        return cnt;
+    }
+
+
+    private Map<String, Integer> getCategoriesWithQuestionNumbers() {
+        List<String> categories = getAllCategories();
+        Map<String, Integer> result = new HashMap<>();
+        for (int i = 0; i < categories.size(); i++) {
+            String cat = categories.get(i);
+            result.put(cat, getNumberOfQuestions(cat));
+        }
+        return result;
+    }
+
 
     //tak trywialne ze todo jutro
     //todo
