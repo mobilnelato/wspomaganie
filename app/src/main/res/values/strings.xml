@@ -13,6 +13,8 @@
     <string name="saveques">Save question</string>
     <string name="questioncontent">Question:</string>
 
-
-    questioncontent
+    <!--take quiz error no questoins-->
+    <string name="noquestions">Add some quesitons first!</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

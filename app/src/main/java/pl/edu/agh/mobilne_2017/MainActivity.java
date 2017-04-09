@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import java.util.List;
+import java.util.Map;
 
 import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.activ.NewCategory;
@@ -23,29 +24,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         db = new DatabaseHelper(getApplicationContext());
-        List<String> categories = db.getAllCategories();
+        Map<String, Integer> categories = db.getCategoriesWithQuestionNumbers();
         int prev = R.id.begginning;
-        for (int i = 0; i < categories.size(); i++) {
+        for (String cat : categories.keySet()) {
             Button b = new Button(this);
-            b.setText(String.valueOf(i) + ")" + categories.get(i));
-            b.setOnClickListener(new MyListener(categories.get(i)));
+            b.setText(cat + " (" + categories.get(cat) + ")");
+            b.setOnClickListener(new MyListener(cat, categories.get(cat)));
             prev = addToLayout(b, prev);
         }
-        Button b =  new Button(this);
+        Button b = new Button(this);
         b.setText("Add new...");
-        b.setOnClickListener(new View.OnClickListener(){
+        b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent newCategory = new Intent(getBaseContext(), NewCategory.class);
                 startActivity(newCategory);
             }
         });
-        addToLayout(b,prev);
+        addToLayout(b, prev);
     }
 
-    private int  addToLayout(View v, int prev ){
+    private int addToLayout(View v, int prev) {
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.activity_main2);
         int curr = View.generateViewId();
         v.setId(curr);
@@ -57,11 +58,13 @@ public class MainActivity extends AppCompatActivity {
         return curr;
     }
 
-    private class MyListener implements View.OnClickListener{
-
+    private class MyListener implements View.OnClickListener {
+        private final int questionsNumber;
         private final String category;
-        MyListener(String category){
+
+        MyListener(String category, int questionsNumber) {
             this.category = category;
+            this.questionsNumber = questionsNumber;
         }
 
         @Override
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             Intent categoryActivity = new Intent(getBaseContext(), CategoryMenu.class);
             Bundle bundle = new Bundle();
             bundle.putString("categoryId", category);
+            bundle.putInt("questionsNumber", questionsNumber);
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);
         }

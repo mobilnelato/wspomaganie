@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    private Map<String, Integer> getCategoriesWithQuestionNumbers() {
+    public Map<String, Integer> getCategoriesWithQuestionNumbers() {
         List<String> categories = getAllCategories();
         Map<String, Integer> result = new HashMap<>();
         for (int i = 0; i < categories.size(); i++) {
