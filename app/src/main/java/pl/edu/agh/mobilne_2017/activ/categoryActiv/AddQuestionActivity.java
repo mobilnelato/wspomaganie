@@ -20,7 +20,7 @@ import pl.edu.agh.mobilne_2017.R;
 
 public class AddQuestionActivity extends Activity {
 
-    private EditText stringanswer;
+    private EditText stringAnswer;
 
     private static int ANSWS = 4;
     private CheckBox[] checkBoxes = new CheckBox[ANSWS];
@@ -39,16 +39,18 @@ public class AddQuestionActivity extends Activity {
                 ToggleButton toggle = (ToggleButton) findViewById(R.id.closedopen);
                 cleanLayout();
                 if (isChecked) {
-                    EditText StringAnswer = new EditText(getBaseContext());
-                    addToLayout(StringAnswer, toggle.getId(), RelativeLayout.BELOW);
+                     stringAnswer = new EditText(getBaseContext());
+                    addToLayout(stringAnswer, toggle.getId(), RelativeLayout.BELOW);
                 } else {
                     // The toggle is disabled closed question
                     int prev = toggle.getId();
                     for (int i = 0; i < ANSWS; i++) {
                         CheckBox ch1 = new CheckBox(getBaseContext());
+                        checkBoxes[i] = ch1;
                         prev = addToLayout(ch1, prev, RelativeLayout.BELOW);
                         EditText ans1 = new EditText(getBaseContext());
                         prev = addToLayout(ans1, prev, RelativeLayout.RIGHT_OF);
+                        anws[i]= ans1;
                     }
                 }
             }
@@ -60,9 +62,9 @@ public class AddQuestionActivity extends Activity {
     }
 
     private void cleanLayout() {
-        if (stringanswer != null) {
-            removeFromLaoyt(stringanswer);
-            stringanswer = null;
+        if (stringAnswer != null) {
+            removeFromLaoyt(stringAnswer);
+            stringAnswer = null;
         }
         for (int i = 0; i < ANSWS; i++) {
             removeFromLaoyt(checkBoxes[i]);
@@ -102,7 +104,7 @@ public class AddQuestionActivity extends Activity {
 
             if (toggle.isChecked()) {
                 //open question
-                question = new OpenQuestion(content, stringanswer.getText().toString(), -1);
+                question = new OpenQuestion(content, stringAnswer.getText().toString(), -1);
             } else {
                 boolean[] checkboxes = new boolean[4];
                 for (int i = 0; i < checkBoxes.length; i++) {
@@ -114,7 +116,7 @@ public class AddQuestionActivity extends Activity {
                 }
                 question = new ClosedQuestion(content,checkboxes,sAnsws,-1);
             }
-            db.persistQuestion(question);
+            db.updateQuestion(question);
         }
     }
 }

@@ -54,35 +54,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.w("DatabaseHelper", selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
         List<String> result = new ArrayList<>();
-        if(c.moveToFirst()){
-            do{
+        if (c.moveToFirst()) {
+            do {
                 String cat = c.getString(c.getColumnIndex(CategoryTable.KEY_NAME));
                 result.add(cat);
-            }while(c.moveToNext());
+            } while (c.moveToNext());
         }
         return result;
     }
 
     //tak trywialne ze todo jutro
     //todo
-    public void persistQuestion(Question question){
-        if(question.getType() == QuestionType.CLOSED){
+    public void updateQuestion(Question question) {
+        if (question.getType() == QuestionType.CLOSED) {
 
-        }else if(question.getType() == QuestionType.OPEN){
+        } else if (question.getType() == QuestionType.OPEN) {
 
         }
     }
 
 
-    public List<Question> getAllQuestions(String category){
+    public List<Question> getAllQuestions(String category) {
         List<Question> result = new ArrayList<>();
 
 
-
-
-
-
         return result;
+    }
+
+
+    public Question getQuestion(int id) {
+        return null;
     }
 }
 
