@@ -10,7 +10,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.edu.agh.mobilne_2017.activ.QuestionType;
 import pl.edu.agh.mobilne_2017.tables.CategoryTable;
 import pl.edu.agh.mobilne_2017.tables.CheckboxAnswersTable;
 import pl.edu.agh.mobilne_2017.tables.QuestionsTable;
@@ -64,8 +63,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-
-    public void createQuestion(Question question){
+    //tak trywialne ze todo jutro
+    //todo
+    public void persistQuestion(Question question){
         if(question.getType() == QuestionType.CLOSED){
 
         }else if(question.getType() == QuestionType.OPEN){
@@ -73,6 +73,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    public List<Question> getAllQuestions(String category){
+        List<Question> result = new ArrayList<>();
+
+
+
+
+
+
+        return result;
+    }
 }
 
 

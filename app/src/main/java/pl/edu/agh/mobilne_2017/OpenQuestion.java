@@ -1,16 +1,16 @@
 package pl.edu.agh.mobilne_2017;
 
 
-import pl.edu.agh.mobilne_2017.activ.QuestionType;
-
 public class OpenQuestion implements Question {
     private final String content;
     private final String stringAnswer;
+    private final int id;
 
 
-    public OpenQuestion(String content, String stringAnswer) {
+    public OpenQuestion(String content, String stringAnswer, int id) {
         this.content = content;
         this.stringAnswer = stringAnswer;
+        this.id = id;
     }
 
     @Override
@@ -23,7 +23,14 @@ public class OpenQuestion implements Question {
         return QuestionType.OPEN;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public String getStringAnswer() {
         return stringAnswer;
     }
+
+
 }

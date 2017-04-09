@@ -102,7 +102,7 @@ public class AddQuestionActivity extends Activity {
 
             if (toggle.isChecked()) {
                 //open question
-                question = new OpenQuestion(content, stringanswer.getText().toString());
+                question = new OpenQuestion(content, stringanswer.getText().toString(), -1);
             } else {
                 boolean[] checkboxes = new boolean[4];
                 for (int i = 0; i < checkBoxes.length; i++) {
@@ -112,9 +112,9 @@ public class AddQuestionActivity extends Activity {
                 for (int i = 0; i < anws.length; i++) {
                     sAnsws[i] = anws[i].getText().toString();
                 }
-                question = new ClosedQuestion(content,checkboxes,sAnsws);
+                question = new ClosedQuestion(content,checkboxes,sAnsws,-1);
             }
-            db.createQuestion(question);
+            db.persistQuestion(question);
         }
     }
 }
