@@ -17,6 +17,8 @@ import pl.edu.agh.mobilne_2017.db.tables.CategoryTable;
 import pl.edu.agh.mobilne_2017.db.tables.CheckboxAnswersTable;
 import pl.edu.agh.mobilne_2017.db.tables.QuestionsTable;
 import pl.edu.agh.mobilne_2017.db.tables.StringAnswersTable;
+import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
+import pl.edu.agh.mobilne_2017.model.OpenQuestion;
 import pl.edu.agh.mobilne_2017.model.Question;
 import pl.edu.agh.mobilne_2017.model.QuestionType;
 
@@ -37,7 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         QuestionsTable.onCreate(db);
     }
 
-    //musi byc zadeklarowana, pomijam implementacje bo jest nieistotna
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //nothing
@@ -88,31 +89,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-
-    //tak trywialne ze todo jutro
-    //todo
-    public void updateQuestion(Question question) {
-        if (question.getType() == QuestionType.CLOSED) {
-
-        } else if (question.getType() == QuestionType.OPEN) {
-
-        }
-    }
-
-
-    public List<Question> getAllQuestions(String category) {
-        List<Question> result = new ArrayList<>();
-
-
-        return result;
-    }
-
-
-    public Question getQuestion(int id) {
-        return null;
-    }
-
-
     public List<Question> getRandomQuestions(String category, int size) {
         List<Question> all = getAllQuestions(category);
         List<Question> result = new ArrayList<>();
@@ -126,6 +102,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+
+    private void deleteQuestion(int questionId, QuestionType type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(QuestionsTable.SQLITE_TABLE, "id = ? ", new String[]{Integer.toString(questionId)});
+        if (type == QuestionType.OPEN) {
+            db.delete(StringAnswersTable.SQLITE_TABLE, StringAnswersTable.QUESTION_ID + " = ? ", new String[]{Integer.toString(questionId)});
+        } else if (type == QuestionType.CLOSED) {
+            db.delete(CheckboxAnswersTable.SQLITE_TABLE, CheckboxAnswersTable.QUESTION_ID + " = ? ", new String[]{Integer.toString(questionId)});
+        }
+    }
+
+    private void createQuestion(Question q, String category) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionsTable.CATEGORY, category);
+        contentValues.put(QuestionsTable.CONTENT, q.getContent());
+        contentValues.put(QuestionsTable.TYPE, q.getType().toString());
+        long id = db.insert(QuestionsTable.SQLITE_TABLE, null, contentValues);
+
+        if (q.getType() == QuestionType.OPEN) {
+            OpenQuestion openQuestion = (OpenQuestion) q;
+            ContentValues openAnswerValues = new ContentValues();
+            openAnswerValues.put(StringAnswersTable.CONTENT, openQuestion.getStringAnswer());
+            openAnswerValues.put(StringAnswersTable.QUESTION_ID, Long.toString(id));
+            db.insert(StringAnswersTable.SQLITE_TABLE, null, contentValues);
+        } else if (q.getType() == QuestionType.CLOSED) {
+            ClosedQuestion closedQuestion = (ClosedQuestion) q;
+            for (int i = 0; i < closedQuestion.getCheckboxes().length; i++) {
+                ContentValues checkBoxValues = new ContentValues();
+                checkBoxValues.put(CheckboxAnswersTable.CONTENT, closedQuestion.getContent());
+                checkBoxValues.put(CheckboxAnswersTable.CORRECT, closedQuestion.getCheckboxes()[i]);
+                checkBoxValues.put(CheckboxAnswersTable.QUESTION_ID, Long.toString(id));
+                db.insert(CheckboxAnswersTable.SQLITE_TABLE, null, contentValues);
+            }
+        }
+
+    }
+
+    public void updateQuestion(Question question, String category) {
+        deleteQuestion(question.getId(), question.getType());
+        createQuestion(question, category);
+    }
+
+
+    public List<Question> getAllQuestions(String category) {
+        List<Question> result = new ArrayList<>();
+        //zbierzemy id a pozniej get Question
+
+        return result;
+    }
+
+
+    public Question getQuestion(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "select * from " + QuestionsTable.SQLITE_TABLE + " where id = ";
+        Log.w("DatabaseHelper", selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+        List<String> result = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                String cat = c.getString(c.getColumnIndex(CategoryTable.KEY_NAME));
+                result.add(cat);
+            } while (c.moveToNext());
+        }
+        return result;
+    }
+
+
 }
 
 

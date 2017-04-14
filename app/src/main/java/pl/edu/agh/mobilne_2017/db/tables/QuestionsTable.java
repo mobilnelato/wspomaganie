@@ -5,7 +5,7 @@ import android.util.Log;
 
 
 public class QuestionsTable {
-    public static final String KEY_ROWID = "_id";
+    public static final String KEY_ROWID = "id";
     public static final String CATEGORY = "category";
     public static final String CONTENT = "content";
     public static final String TYPE = "type";
