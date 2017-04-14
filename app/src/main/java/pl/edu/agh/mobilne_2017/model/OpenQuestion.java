@@ -1,4 +1,4 @@
-package pl.edu.agh.mobilne_2017;
+package pl.edu.agh.mobilne_2017.model;
 
 
 public class OpenQuestion implements Question {
@@ -31,6 +31,4 @@ public class OpenQuestion implements Question {
     public String getStringAnswer() {
         return stringAnswer;
     }
-
-
 }

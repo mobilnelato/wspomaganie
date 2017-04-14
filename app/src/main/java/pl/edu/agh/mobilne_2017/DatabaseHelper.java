@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import pl.edu.agh.mobilne_2017.model.Question;
+import pl.edu.agh.mobilne_2017.model.QuestionType;
 import pl.edu.agh.mobilne_2017.tables.CategoryTable;
 import pl.edu.agh.mobilne_2017.tables.CheckboxAnswersTable;
 import pl.edu.agh.mobilne_2017.tables.QuestionsTable;
@@ -67,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     int getNumberOfQuestions(String category) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String countQuery = "select COUNT(*) from " + QuestionsTable.SQLITE_TABLE+" where "+QuestionsTable.CATEGORY+" like "+category;
+        String countQuery = "select COUNT(*) from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " like " + category;
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
@@ -107,6 +110,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Question getQuestion(int id) {
         return null;
+    }
+
+
+    public List<Question> getRandomQuestions(String category, int size) {
+        List<Question> all = getAllQuestions(category);
+        List<Question> result = new ArrayList<>();
+        Random generator = new Random();
+        while (size > 0) {
+            int i = generator.nextInt(all.size());
+            Question q = all.get(i);
+            result.add(q);
+            all.remove(q);
+            size--;
+        }
+        return result;
     }
 }
 

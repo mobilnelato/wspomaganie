@@ -12,10 +12,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
-import pl.edu.agh.mobilne_2017.ClosedQuestion;
+import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
 import pl.edu.agh.mobilne_2017.DatabaseHelper;
-import pl.edu.agh.mobilne_2017.OpenQuestion;
-import pl.edu.agh.mobilne_2017.Question;
+import pl.edu.agh.mobilne_2017.model.OpenQuestion;
+import pl.edu.agh.mobilne_2017.model.Question;
 import pl.edu.agh.mobilne_2017.R;
 
 public class AddQuestionActivity extends Activity {

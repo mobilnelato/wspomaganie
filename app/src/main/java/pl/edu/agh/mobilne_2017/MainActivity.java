@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import java.util.List;
 import java.util.Map;
 
 import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         for (String cat : categories.keySet()) {
             Button b = new Button(this);
             b.setText(cat + " (" + categories.get(cat) + ")");
-            b.setOnClickListener(new MyListener(cat, categories.get(cat)));
+            b.setOnClickListener(new GoToCategoryListener(cat, categories.get(cat)));
             prev = addToLayout(b, prev);
         }
         Button b = new Button(this);
@@ -58,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
         return curr;
     }
 
-    private class MyListener implements View.OnClickListener {
+    private class GoToCategoryListener implements View.OnClickListener {
         private final int questionsNumber;
         private final String category;
 
-        MyListener(String category, int questionsNumber) {
+        GoToCategoryListener(String category, int questionsNumber) {
             this.category = category;
             this.questionsNumber = questionsNumber;
         }

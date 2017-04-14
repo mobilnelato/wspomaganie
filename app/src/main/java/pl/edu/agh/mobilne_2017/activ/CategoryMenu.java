@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import pl.edu.agh.mobilne_2017.R;
 import pl.edu.agh.mobilne_2017.activ.categoryActiv.AddQuestionActivity;
 import pl.edu.agh.mobilne_2017.activ.categoryActiv.PreviewQuestionsActivity;
@@ -90,7 +88,7 @@ public class CategoryMenu extends Activity {
         @Override
         public void onClick(View v) {
             if (questionsNumber > 0) {
-                //przeczytja z dialogu ile pytan w quizie
+                //przeczyta z dialogu ile pytan w quizie
                 showPickerDialog();
             } else {
                 errorDialog();

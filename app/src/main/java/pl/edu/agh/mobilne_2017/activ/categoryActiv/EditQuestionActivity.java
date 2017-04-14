@@ -10,11 +10,11 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import pl.edu.agh.mobilne_2017.ClosedQuestion;
+import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
 import pl.edu.agh.mobilne_2017.DatabaseHelper;
-import pl.edu.agh.mobilne_2017.OpenQuestion;
-import pl.edu.agh.mobilne_2017.Question;
-import pl.edu.agh.mobilne_2017.QuestionType;
+import pl.edu.agh.mobilne_2017.model.OpenQuestion;
+import pl.edu.agh.mobilne_2017.model.Question;
+import pl.edu.agh.mobilne_2017.model.QuestionType;
 import pl.edu.agh.mobilne_2017.R;
 
 public class EditQuestionActivity extends Activity {
@@ -52,7 +52,6 @@ public class EditQuestionActivity extends Activity {
             //dodjamey textarea z contentem
             stringAnswer  = new EditText(getBaseContext());
             stringAnswer.setText(question.getContent());
-
             addToLayout(stringAnswer, prev, RelativeLayout.BELOW);
         }
         //dodaj listener do save buttona
