@@ -11,6 +11,7 @@ import java.util.Map;
 
 import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.activ.NewCategory;
+import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 

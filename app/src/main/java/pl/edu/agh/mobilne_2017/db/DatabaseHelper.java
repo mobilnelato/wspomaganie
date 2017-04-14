@@ -1,4 +1,4 @@
-package pl.edu.agh.mobilne_2017;
+package pl.edu.agh.mobilne_2017.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import pl.edu.agh.mobilne_2017.db.tables.CategoryTable;
+import pl.edu.agh.mobilne_2017.db.tables.CheckboxAnswersTable;
+import pl.edu.agh.mobilne_2017.db.tables.QuestionsTable;
+import pl.edu.agh.mobilne_2017.db.tables.StringAnswersTable;
 import pl.edu.agh.mobilne_2017.model.Question;
 import pl.edu.agh.mobilne_2017.model.QuestionType;
-import pl.edu.agh.mobilne_2017.tables.CategoryTable;
-import pl.edu.agh.mobilne_2017.tables.CheckboxAnswersTable;
-import pl.edu.agh.mobilne_2017.tables.QuestionsTable;
-import pl.edu.agh.mobilne_2017.tables.StringAnswersTable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

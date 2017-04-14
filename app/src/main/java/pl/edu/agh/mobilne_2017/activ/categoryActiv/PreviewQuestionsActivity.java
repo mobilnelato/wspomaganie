@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import pl.edu.agh.mobilne_2017.DatabaseHelper;
+import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.model.Question;
 import pl.edu.agh.mobilne_2017.R;
 

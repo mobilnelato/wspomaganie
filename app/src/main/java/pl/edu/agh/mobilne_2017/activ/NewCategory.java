@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import pl.edu.agh.mobilne_2017.DatabaseHelper;
+import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.R;
 
 

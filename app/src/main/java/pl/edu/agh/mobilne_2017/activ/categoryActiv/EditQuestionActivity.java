@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
-import pl.edu.agh.mobilne_2017.DatabaseHelper;
+import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.model.OpenQuestion;
 import pl.edu.agh.mobilne_2017.model.Question;
 import pl.edu.agh.mobilne_2017.model.QuestionType;

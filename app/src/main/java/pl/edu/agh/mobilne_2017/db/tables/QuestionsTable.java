@@ -1,24 +1,24 @@
-package pl.edu.agh.mobilne_2017.tables;
-
+package pl.edu.agh.mobilne_2017.db.tables;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class CheckboxAnswersTable {
-    public static final String KEY_ROWID = "_id";
-    public static final String QUESTION_ID = "question_id";
-    public static final String CONTENT = "content";
-    public static final String CORRECT = "correct";
 
-    private static final String LOG_TAG = "CheckboxAnswersTable";
-    public static final String SQLITE_TABLE = "CheckboxAnswers";
+public class QuestionsTable {
+    public static final String KEY_ROWID = "_id";
+    public static final String CATEGORY = "category";
+    public static final String CONTENT = "content";
+    public static final String TYPE = "type";
+
+    private static final String LOG_TAG = " QuestionsTable";
+    public static final String SQLITE_TABLE = "Questions";
 
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement, " +
+                    CATEGORY +" text, " +
                     CONTENT + " text, " +
-                    QUESTION_ID + " integer, " +
-                    CORRECT + "boolean " +
+                    TYPE + " text "+
                     " );";
 
     public static void onCreate(SQLiteDatabase db) {

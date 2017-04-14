@@ -1,4 +1,4 @@
-package pl.edu.agh.mobilne_2017.tables;
+package pl.edu.agh.mobilne_2017.db.tables;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
