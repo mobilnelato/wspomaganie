@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.model.Question;
 import pl.edu.agh.mobilne_2017.R;
+import pl.edu.agh.mobilne_2017.model.QuestionType;
 
 public class PreviewQuestionsActivity extends Activity {
     @Override
@@ -27,7 +29,7 @@ public class PreviewQuestionsActivity extends Activity {
     //wraz z guzikiem edit
     protected void onResume() {
         super.onResume();
-        String category = this.getIntent().getExtras().getString("categoryId");
+        String category = this.getIntent().getExtras().getString("category");
         TextView categoryHeader = (TextView) findViewById(R.id.see_questions_header);
         categoryHeader.setText("Category: " + category);
 
@@ -48,6 +50,7 @@ public class PreviewQuestionsActivity extends Activity {
                 value.setPadding(50, 50, 50, 0);
                 prev = addToLayout(value, prev, RelativeLayout.BELOW, RelativeLayout.ALIGN_PARENT_LEFT);
                 Button editButton = new Button(this);
+                editButton.setId(View.generateViewId());
                 editButton.setOnClickListener(new EditQuestionListener(questions.get(i).getId(), category));
                 editButton.setText("Edit");
 
@@ -57,6 +60,18 @@ public class PreviewQuestionsActivity extends Activity {
                 params.addRule(RelativeLayout.RIGHT_OF, prev);
                 params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
                 mainLayout.addView(editButton, params);
+
+
+
+                Button deleteButton = new Button(this);
+                deleteButton.setOnClickListener(new DeleteQuestionListener(questions.get(i).getId(), questions.get(i).getType(), category));
+                deleteButton.setText("Delete");
+
+                params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.RIGHT_OF, editButton.getId());
+                params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
+                mainLayout.addView(deleteButton, params);
 
                 //addToLayout(editButton, prev, RelativeLayout.RIGHT_OF, RelativeLayout.ALIGN_BASELINE);
             }
@@ -96,6 +111,31 @@ public class PreviewQuestionsActivity extends Activity {
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);
 
+        }
+    }
+
+
+    private class DeleteQuestionListener implements View.OnClickListener{
+        private final long id;
+        private final QuestionType questionType;
+        private final String category;
+        public DeleteQuestionListener(long id, QuestionType questionType, String category) {
+            this.id = id;
+            this.questionType = questionType;
+            this.category = category;
+        }
+
+        @Override
+        public void onClick(View v) {
+            DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+            Log.w("SaveEditQuestionListene", "Saving edit changes on quesiton ");
+
+            db.deleteQuestion(id,questionType);
+            Intent mainActivity = new Intent(getBaseContext(), PreviewQuestionsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("category", category);
+            mainActivity.putExtras(bundle);
+            startActivity(mainActivity);
         }
     }
 

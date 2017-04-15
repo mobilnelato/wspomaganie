@@ -228,10 +228,8 @@ public class TakeQuizActivity extends Activity {
             content.setText(questions.get(i).getContent());
             if (questionResult[i]) {
                 content.setTextColor(Color.GREEN);
-
             } else {
                 content.setTextColor(Color.RED);
-
             }
 
             prev = addToLayout(content, prev, RelativeLayout.BELOW);

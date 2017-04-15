@@ -69,7 +69,7 @@ public class CategoryMenu extends Activity {
         public void onClick(View v) {
             Intent categoryActivity = new Intent(getBaseContext(), PreviewQuestionsActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("categoryId", category);
+            bundle.putString("category", category);
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);
         }
@@ -121,7 +121,7 @@ public class CategoryMenu extends Activity {
             int size = picker.getValue();
             Intent categoryActivity = new Intent(getBaseContext(), TakeQuizActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("categoryId", category);
+            bundle.putString("category", category);
             bundle.putInt("quizSize", size);
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);

@@ -103,7 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    private void deleteQuestion(long questionId, QuestionType type) {
+    public void deleteQuestion(long questionId, QuestionType type) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(QuestionsTable.SQLITE_TABLE, "id = ? ", new String[]{Long.toString(questionId)});
         if (type == QuestionType.OPEN) {
