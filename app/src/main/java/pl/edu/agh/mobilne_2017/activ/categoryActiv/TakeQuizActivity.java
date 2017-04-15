@@ -3,6 +3,7 @@ package pl.edu.agh.mobilne_2017.activ.categoryActiv;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -45,6 +46,7 @@ public class TakeQuizActivity extends Activity {
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         questions = db.getRandomQuestions(category, quizSize);
         //ustaw pierwsze pytanie
+        updateCounterLabel();
         setQuestionInLayout(questions.get(0));
         //prev rob disable jak counter jest na zero
         (findViewById(R.id.quiz_taking_prev_button)).setEnabled(false);
@@ -72,17 +74,28 @@ public class TakeQuizActivity extends Activity {
             ClosedQuestion closed = (ClosedQuestion) q;
             //dodac 4 razy checkbox i tekst
             for (int i = 0; i < 4; i++) {
-                CheckBox checkBox = new CheckBox(getBaseContext());
-                prev = addToLayout(checkBox, prev, RelativeLayout.BELOW);
-                checkBoxes[i] = checkBox;
-
                 answerTexts[i] = new TextView(getBaseContext());
                 answerTexts[i].setText(closed.getAnsws()[i]);
-                prev = addToLayout(answerTexts[i], prev, RelativeLayout.RIGHT_OF);
+               // addToLayout(answerTexts[i], prev, RelativeLayout.RIGHT_OF);
+
+
+
+                CheckBox ch1 = new CheckBox(getBaseContext());
+                ch1.setPadding(50,50,10,0);
+                prev = addToLayout(ch1, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout);
+                checkBoxes[i] = ch1;
+
+                RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.quiz_taking_layout);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.RIGHT_OF, prev);
+                params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
+                mainLayout.addView(answerTexts[i], params);
+
             }
         } else if (q.getType() == QuestionType.OPEN) {
             currOpenQuestionAns = new EditText(getBaseContext());
-            addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW);
+            addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout);
         }
     }
 
@@ -97,6 +110,7 @@ public class TakeQuizActivity extends Activity {
             if (currentQuestion == 0) {
                 v.setEnabled(false);
             }
+            setQuestionInLayout(questions.get(currentQuestion));
 
         }
     }
@@ -126,6 +140,8 @@ public class TakeQuizActivity extends Activity {
             }
             if (currentQuestion == quizSize) {
                 showFinalResults();
+            }else{
+                setQuestionInLayout(questions.get(currentQuestion));
             }
         }
 
@@ -136,8 +152,8 @@ public class TakeQuizActivity extends Activity {
     //sprawdzanie wyniku i wyswitlanie w osobnym layoucie n
     //selecty w helperze
 
-    private int addToLayout(View v, int prev, int rightOrBelow) {//dodac argument below czy po prawej od ostatniego elementu
-        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.quiz_taking_layout);
+    private int addToLayout(View v, int prev, int rightOrBelow,int layoutId) {//dodac argument below czy po prawej od ostatniego elementu
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(layoutId);
         int curr = View.generateViewId();
         v.setId(curr);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -215,7 +231,7 @@ public class TakeQuizActivity extends Activity {
 
     private void updateCounterLabel() {
         TextView textView = (TextView) (findViewById(R.id.quiz_taking_counter));
-        textView.setText(currentQuestion + "/" + quizSize);
+        textView.setText(currentQuestion+1 + "/" + quizSize);
     }
 
     private void displayResult(int points, boolean[] questionResult) {
@@ -233,9 +249,7 @@ public class TakeQuizActivity extends Activity {
             } else {
                 content.setTextColor(Color.RED);
             }
-
-            prev = addToLayout(content, prev, RelativeLayout.BELOW);
-
+            prev = addToLayout(content, prev, RelativeLayout.BELOW,R.id.results_layout_id);
         }
     }
 }
