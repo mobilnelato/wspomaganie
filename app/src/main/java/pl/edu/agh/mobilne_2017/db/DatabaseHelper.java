@@ -137,7 +137,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.insert(CheckboxAnswersTable.SQLITE_TABLE, null, contentValues);
             }
         }
-
     }
 
     public void updateQuestion(Question question, String category) {
@@ -156,17 +155,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Question getQuestion(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "select * from " + QuestionsTable.SQLITE_TABLE + " where id = ";
-        Log.w("DatabaseHelper", selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
-        List<String> result = new ArrayList<>();
-        if (c.moveToFirst()) {
-            do {
-                String cat = c.getString(c.getColumnIndex(CategoryTable.KEY_NAME));
-                result.add(cat);
-            } while (c.moveToNext());
+        Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where id=" + id, null);
+        Log.w("DatabaseHelper", "select * from " + QuestionsTable.SQLITE_TABLE + " where id=" + id);
+
+
+        if (res.moveToFirst()) {
+            String content = res.getString(res.getColumnIndex(QuestionsTable.CONTENT));
+            QuestionType type = QuestionType.valueOf(res.getString(res.getColumnIndex(QuestionsTable.TYPE)));
+            if (type == QuestionType.CLOSED) {
+                Cursor closedAnswers = db.rawQuery("select * from " + CheckboxAnswersTable.SQLITE_TABLE + " where " + CheckboxAnswersTable.QUESTION_ID + "=" + id, null);
+                closedAnswers.moveToFirst();
+                boolean[] checkboxes = new boolean[closedAnswers.getCount()];
+                String[] answs = new String[closedAnswers.getCount()];
+                for (int i = 0; i < closedAnswers.getCount(); i++) {
+                    checkboxes[i] = Boolean.valueOf(closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CORRECT)));
+                    answs[i] = closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CONTENT));
+                }
+                ClosedQuestion closedQuestion = new ClosedQuestion(content, checkboxes, answs, id);
+                return closedQuestion;
+            } else if (type == QuestionType.OPEN) {
+                Cursor open = db.rawQuery("select * from " + StringAnswersTable.SQLITE_TABLE + " where " + StringAnswersTable.QUESTION_ID + "=" + id, null);
+                open.moveToFirst();
+                OpenQuestion openQuestion = new OpenQuestion(content, open.getString(open.getColumnIndex(StringAnswersTable.CONTENT)), id);
+                return openQuestion;
+            }
         }
-        return result;
+        return null;
     }
 
 
