@@ -5,9 +5,9 @@ public class ClosedQuestion implements Question {
     private final boolean[] checkboxes;
     private final String[] answs;
     private final String content;
-    private final int id;
+    private final long id;
 
-    public ClosedQuestion(String content, boolean[] checkboxes, String[] answs, int id) {
+    public ClosedQuestion(String content, boolean[] checkboxes, String[] answs, long id) {
         this.content = content;
         this.checkboxes = checkboxes;
         this.answs = answs;
@@ -25,7 +25,7 @@ public class ClosedQuestion implements Question {
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 

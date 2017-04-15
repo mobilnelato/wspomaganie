@@ -58,7 +58,8 @@ public class AddQuestionActivity extends Activity {
 
 
         Button saveButton = (Button) findViewById(R.id.savequestion);
-        saveButton.setOnClickListener(new NewQuestionListener());
+        String category = this.getIntent().getExtras().getString("category");
+        saveButton.setOnClickListener(new NewQuestionListener(category));
     }
 
     private void cleanLayout() {
@@ -94,6 +95,13 @@ public class AddQuestionActivity extends Activity {
 
 
     private class NewQuestionListener implements View.OnClickListener {
+
+        private final String category;
+
+        public NewQuestionListener(String category) {
+            this.category = category;
+        }
+
         public void onClick(View arg0) {
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             EditText tv = (EditText) findViewById(R.id.newcattitle);
@@ -116,7 +124,7 @@ public class AddQuestionActivity extends Activity {
                 }
                 question = new ClosedQuestion(content,checkboxes,sAnsws,-1);
             }
-            db.updateQuestion(question);
+            db.createQuestion(question,category);
         }
     }
 }

@@ -51,7 +51,7 @@ public class CategoryMenu extends Activity {
         public void onClick(View v) {
             Intent categoryActivity = new Intent(getBaseContext(), AddQuestionActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("categoryId", category);
+            bundle.putString("category", category);
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);
         }

@@ -103,17 +103,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    private void deleteQuestion(int questionId, QuestionType type) {
+    private void deleteQuestion(long questionId, QuestionType type) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(QuestionsTable.SQLITE_TABLE, "id = ? ", new String[]{Integer.toString(questionId)});
+        db.delete(QuestionsTable.SQLITE_TABLE, "id = ? ", new String[]{Long.toString(questionId)});
         if (type == QuestionType.OPEN) {
-            db.delete(StringAnswersTable.SQLITE_TABLE, StringAnswersTable.QUESTION_ID + " = ? ", new String[]{Integer.toString(questionId)});
+            db.delete(StringAnswersTable.SQLITE_TABLE, StringAnswersTable.QUESTION_ID + " = ? ", new String[]{Long.toString(questionId)});
         } else if (type == QuestionType.CLOSED) {
-            db.delete(CheckboxAnswersTable.SQLITE_TABLE, CheckboxAnswersTable.QUESTION_ID + " = ? ", new String[]{Integer.toString(questionId)});
+            db.delete(CheckboxAnswersTable.SQLITE_TABLE, CheckboxAnswersTable.QUESTION_ID + " = ? ", new String[]{Long.toString(questionId)});
         }
     }
 
-    private void createQuestion(Question q, String category) {
+    public void createQuestion(Question q, String category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(QuestionsTable.CATEGORY, category);
@@ -147,18 +147,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Question> getAllQuestions(String category) {
         List<Question> result = new ArrayList<>();
-        //zbierzemy id a pozniej get Question
+        //zbierzemy id a pozniej get Question z id
+        List<Long> questionsIds = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " like " + category, null);
+        res.moveToFirst();
+        do {
+            long id = res.getInt(res.getColumnIndex(QuestionsTable.KEY_ROWID));
+            questionsIds.add(id);
+        } while (res.moveToNext());
 
+        for (int i = 0; i < questionsIds.size(); i++) {
+            result.add(getQuestion(questionsIds.get(i)));
+        }
         return result;
     }
 
 
-    public Question getQuestion(int id) {
+    public Question getQuestion(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where id=" + id, null);
         Log.w("DatabaseHelper", "select * from " + QuestionsTable.SQLITE_TABLE + " where id=" + id);
-
-
         if (res.moveToFirst()) {
             String content = res.getString(res.getColumnIndex(QuestionsTable.CONTENT));
             QuestionType type = QuestionType.valueOf(res.getString(res.getColumnIndex(QuestionsTable.TYPE)));
@@ -167,10 +176,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 closedAnswers.moveToFirst();
                 boolean[] checkboxes = new boolean[closedAnswers.getCount()];
                 String[] answs = new String[closedAnswers.getCount()];
-                for (int i = 0; i < closedAnswers.getCount(); i++) {
+                int i = 0;
+                do {
                     checkboxes[i] = Boolean.valueOf(closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CORRECT)));
                     answs[i] = closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CONTENT));
-                }
+                    i++;
+                } while (closedAnswers.moveToNext());
                 ClosedQuestion closedQuestion = new ClosedQuestion(content, checkboxes, answs, id);
                 return closedQuestion;
             } else if (type == QuestionType.OPEN) {

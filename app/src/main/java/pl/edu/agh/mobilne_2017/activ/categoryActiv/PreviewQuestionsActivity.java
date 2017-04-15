@@ -40,7 +40,7 @@ public class PreviewQuestionsActivity extends Activity {
             TextView value = new TextView(this);
             prev = addToLayout(value, prev, RelativeLayout.BELOW);
             Button editButton = new Button(this);
-            editButton.setOnClickListener(new EditQuestionListener(questions.get(i).getId()));
+            editButton.setOnClickListener(new EditQuestionListener(questions.get(i).getId(), category));
             editButton.setText("Edit");
             prev = addToLayout(editButton, prev, RelativeLayout.RIGHT_OF);
         }
@@ -60,17 +60,21 @@ public class PreviewQuestionsActivity extends Activity {
     }
 
     private class EditQuestionListener implements View.OnClickListener {
-        private final int questionId;
+        private final long questionId;
+        private final String category;
 
-        public EditQuestionListener(int questionId) {
+        public EditQuestionListener(long questionId, String category) {
             this.questionId = questionId;
+            this.category = category;
         }
 
         public void onClick(View arg0) {
-            Log.w("EditQuestionListener", "QuestionId "+questionId);
+            Log.w("EditQuestionListener", "QuestionId " + questionId);
             Intent categoryActivity = new Intent(getBaseContext(), EditQuestionActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putInt("questionId", questionId);
+            bundle.putString("category", category);
+
+            bundle.putLong("questionId", questionId);
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);
 

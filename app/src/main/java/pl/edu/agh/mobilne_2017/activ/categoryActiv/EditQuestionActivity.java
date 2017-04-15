@@ -50,22 +50,25 @@ public class EditQuestionActivity extends Activity {
 
         } else if (question.getType() == QuestionType.OPEN) {
             //dodjamey textarea z contentem
-            stringAnswer  = new EditText(getBaseContext());
+            stringAnswer = new EditText(getBaseContext());
             stringAnswer.setText(question.getContent());
             addToLayout(stringAnswer, prev, RelativeLayout.BELOW);
         }
         //dodaj listener do save buttona
-        findViewById(R.id.editor_save_question).setOnClickListener(new SaveEditQuestionListener(question.getType(), question.getId()));
+        String category = this.getIntent().getExtras().getString("category");
+        findViewById(R.id.editor_save_question).setOnClickListener(new SaveEditQuestionListener(question.getType(), question.getId(),category));
 
     }
 
     private class SaveEditQuestionListener implements View.OnClickListener {
         private final QuestionType type;
-        private final int questionId;
+        private final long questionId;
+        private final String category;
 
-        public SaveEditQuestionListener(QuestionType type, int questionId) {
+        public SaveEditQuestionListener(QuestionType type, long questionId, String category) {
             this.type = type;
             this.questionId = questionId;
+            this.category = category;
         }
 
         public void onClick(View arg0) {
@@ -90,7 +93,7 @@ public class EditQuestionActivity extends Activity {
                 question = new OpenQuestion(content, stringAnswer.getText().toString(), questionId);
 
             }
-            db.updateQuestion(question);
+            db.updateQuestion(question,category);
         }
     }
 
