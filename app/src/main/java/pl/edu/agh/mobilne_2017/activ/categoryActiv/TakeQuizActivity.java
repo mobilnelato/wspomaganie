@@ -24,8 +24,8 @@ import pl.edu.agh.mobilne_2017.R;
 
 public class TakeQuizActivity extends Activity {
 
-    private CheckBox[] checkBoxes = new CheckBox[4];
-    private TextView[] answerTexts = new TextView[4];
+    private CheckBox[] checkBoxes = null;
+    private TextView[] answerTexts = null;
     private EditText currOpenQuestionAns;
     Answer[] answers;
     int currentQuestion = 0;
@@ -35,9 +35,9 @@ public class TakeQuizActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_category_layout);
+        setContentView(R.layout.quiz_taking_layout);
 
-        String category = this.getIntent().getExtras().getString("categoryId");
+        String category = this.getIntent().getExtras().getString("category");
         quizSize = this.getIntent().getExtras().getInt("quizSize");
         answers = new Answer[quizSize];
 
@@ -67,6 +67,8 @@ public class TakeQuizActivity extends Activity {
         tv.setText(q.getContent());
         int prev = findViewById(R.id.quiz_taking_content).getId();
         if (q.getType() == QuestionType.CLOSED) {
+            checkBoxes = new CheckBox[4];
+            answerTexts =  new TextView[4];
             ClosedQuestion closed = (ClosedQuestion) q;
             //dodac 4 razy checkbox i tekst
             for (int i = 0; i < 4; i++) {

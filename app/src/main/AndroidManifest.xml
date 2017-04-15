@@ -26,6 +26,9 @@
         <activity android:name=".activ.categoryActiv.PreviewQuestionsActivity"></activity>
 
         <activity android:name=".activ.categoryActiv.EditQuestionActivity"></activity>
+
+
+        <activity android:name=".activ.categoryActiv.TakeQuizActivity"></activity>
     </application>
 
 </manifest>

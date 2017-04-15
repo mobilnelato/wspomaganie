@@ -129,11 +129,11 @@ public class CategoryMenu extends Activity {
     }
 
     private void showPickerDialog() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getBaseContext());
+        AlertDialog.Builder alert = new AlertDialog.Builder(CategoryMenu.this);
         alert.setTitle("Title");
         alert.setMessage("Message");
         // Set an EditText view to get user input
-        NumberPicker picker = new NumberPicker(getBaseContext());
+        NumberPicker picker = new NumberPicker(CategoryMenu.this);
         picker.setMinValue(1);
         picker.setMaxValue(questionsNumber);
         alert.setView(picker);
