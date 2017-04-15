@@ -126,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues openAnswerValues = new ContentValues();
             openAnswerValues.put(StringAnswersTable.CONTENT, openQuestion.getStringAnswer());
             openAnswerValues.put(StringAnswersTable.QUESTION_ID, Long.toString(id));
-            db.insert(StringAnswersTable.SQLITE_TABLE, null, contentValues);
+            db.insert(StringAnswersTable.SQLITE_TABLE, null, openAnswerValues);
         } else if (q.getType() == QuestionType.CLOSED) {
             ClosedQuestion closedQuestion = (ClosedQuestion) q;
             for (int i = 0; i < closedQuestion.getCheckboxes().length; i++) {
@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 checkBoxValues.put(CheckboxAnswersTable.CONTENT, closedQuestion.getContent());
                 checkBoxValues.put(CheckboxAnswersTable.CORRECT, closedQuestion.getCheckboxes()[i]);
                 checkBoxValues.put(CheckboxAnswersTable.QUESTION_ID, Long.toString(id));
-                db.insert(CheckboxAnswersTable.SQLITE_TABLE, null, contentValues);
+                db.insert(CheckboxAnswersTable.SQLITE_TABLE, null, checkBoxValues);
             }
         }
     }

@@ -1,6 +1,7 @@
 package pl.edu.agh.mobilne_2017;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import java.util.Map;
 import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.activ.NewCategory;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
+import pl.edu.agh.mobilne_2017.db.tables.QuestionsTable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
     }
 
     @Override
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         addToLayout(b, prev);
+        SQLiteDatabase db2 = db.getWritableDatabase();
+      //  db2.delete(QuestionsTable.SQLITE_TABLE, null, null);
+
     }
 
     private int addToLayout(View v, int prev) {

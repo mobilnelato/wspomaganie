@@ -2,6 +2,7 @@ package pl.edu.agh.mobilne_2017.activ.categoryActiv;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
+import pl.edu.agh.mobilne_2017.MainActivity;
+import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.model.OpenQuestion;
@@ -39,7 +42,7 @@ public class AddQuestionActivity extends Activity {
                 ToggleButton toggle = (ToggleButton) findViewById(R.id.closedopen);
                 cleanLayout();
                 if (isChecked) {
-                     stringAnswer = new EditText(getBaseContext());
+                    stringAnswer = new EditText(getBaseContext());
                     addToLayout(stringAnswer, toggle.getId(), RelativeLayout.BELOW);
                 } else {
                     // The toggle is disabled closed question
@@ -49,14 +52,14 @@ public class AddQuestionActivity extends Activity {
                         checkBoxes[i] = ch1;
                         prev = addToLayout(ch1, prev, RelativeLayout.BELOW);
                         EditText ans1 = new EditText(getBaseContext());
-                        prev = addToLayout(ans1, prev, RelativeLayout.RIGHT_OF);
+                        prev = addToLayout(ans1, prev, RelativeLayout.BELOW);
                         anws[i]= ans1;
                     }
                 }
             }
         });
 
-
+        toggle.setChecked(true);
         Button saveButton = (Button) findViewById(R.id.savequestion);
         String category = this.getIntent().getExtras().getString("category");
         saveButton.setOnClickListener(new NewQuestionListener(category));
@@ -104,11 +107,11 @@ public class AddQuestionActivity extends Activity {
 
         public void onClick(View arg0) {
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-            EditText tv = (EditText) findViewById(R.id.newcattitle);
+            EditText tv = (EditText) findViewById(R.id.new_question_content);
             Log.w("NewQuestionListener", tv.getText().toString());
             Question question;
             ToggleButton toggle = (ToggleButton) findViewById(R.id.closedopen);
-            String content = ((EditText) findViewById(R.id.content)).getText().toString();
+            String content = ((EditText) findViewById(R.id.new_question_content)).getText().toString();
 
             if (toggle.isChecked()) {
                 //open question
@@ -125,6 +128,11 @@ public class AddQuestionActivity extends Activity {
                 question = new ClosedQuestion(content,checkboxes,sAnsws,-1);
             }
             db.createQuestion(question,category);
+            Intent mainActivity = new Intent(getBaseContext(), CategoryMenu.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("category", category);
+            mainActivity.putExtras(bundle);
+            startActivity(mainActivity);
         }
     }
 }

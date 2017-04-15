@@ -75,7 +75,7 @@ public class EditQuestionActivity extends Activity {
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             Log.w("SaveEditQuestionListene", "Saving edit changes on quesiton ");
             Question question = null;
-            String content = ((EditText) findViewById(R.id.content)).getText().toString();
+            String content = ((EditText) findViewById(R.id.new_question_content)).getText().toString();
             if (type == QuestionType.CLOSED) {
                 //dodajemy 4 pola z tymi pytaniami
 

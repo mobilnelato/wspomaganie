@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="10dp" />
 
-    <EditText android:id="@+id/content"
+    <EditText android:id="@+id/new_question_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
@@ -23,9 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/closedopen"
-        android:layout_below="@+id/content"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/new_question_content"
+        android:layout_centerInParent="true"
         android:text="Type"
         android:textOn="Open"
         android:textOff="Closed" />
