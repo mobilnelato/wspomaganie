@@ -29,9 +29,11 @@ public class EditQuestionActivity extends Activity {
         setContentView(R.layout.question_editor);
         TextView tv = (TextView) findViewById(R.id.editorHeader);
         int prev = tv.getId();
-        int questionId = this.getIntent().getExtras().getInt("questionId");
+        long questionId = this.getIntent().getExtras().getLong("questionId");
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         Question question = db.getQuestion(questionId);
+        Log.w("EditQuestionActivity","id pytania"+questionId);
+        Log.w("EditQuestionActivity","czy jest rowne null"+(null==question));
         if (question.getType() == QuestionType.CLOSED) {
             //dodajemy 4 pola z tymi pytaniami
             ClosedQuestion closedQuestion = (ClosedQuestion) question;
@@ -98,7 +100,7 @@ public class EditQuestionActivity extends Activity {
     }
 
     private int addToLayout(View v, int prev, int rightOrBelow) {//dodac argument below czy po prawej od ostatniego elementu
-        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.new_question_id);
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.question_editor_layout);
         int curr = View.generateViewId();
         v.setId(curr);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,

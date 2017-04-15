@@ -24,6 +24,8 @@
         <activity android:name=".activ.categoryActiv.AddQuestionActivity"></activity>
 
         <activity android:name=".activ.categoryActiv.PreviewQuestionsActivity"></activity>
+
+        <activity android:name=".activ.categoryActiv.EditQuestionActivity"></activity>
     </application>
 
 </manifest>

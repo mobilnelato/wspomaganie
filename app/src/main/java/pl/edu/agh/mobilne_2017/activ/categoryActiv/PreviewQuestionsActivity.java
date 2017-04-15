@@ -37,32 +37,41 @@ public class PreviewQuestionsActivity extends Activity {
         if (questions == null) {
             TextView value = new TextView(this);
             value.setText("No questions yet!");
-            addToLayout(value, prev, RelativeLayout.BELOW);
+            addToLayout(value, prev, RelativeLayout.BELOW, RelativeLayout.CENTER_IN_PARENT);
         } else {
 
             for (int i = 0; i < questions.size(); i++) {
                 //dodaj text z contentem + button edit a do tego buttona daj
                 // onclick listener a temu onlcik listenerowi dasz id pytania w  kontuktorze. ten listener robi intent do edit question
                 TextView value = new TextView(this);
-                value.setText(questions.get(i).getContent());
-                prev = addToLayout(value, prev, RelativeLayout.BELOW);
+                value.setText(i + ")" + questions.get(i).getContent());
+                value.setPadding(50, 50, 50, 0);
+                prev = addToLayout(value, prev, RelativeLayout.BELOW, RelativeLayout.ALIGN_PARENT_LEFT);
                 Button editButton = new Button(this);
                 editButton.setOnClickListener(new EditQuestionListener(questions.get(i).getId(), category));
                 editButton.setText("Edit");
-                prev = addToLayout(editButton, prev, RelativeLayout.RIGHT_OF);
+
+                RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.see_questions);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.RIGHT_OF, prev);
+                params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
+                mainLayout.addView(editButton, params);
+
+                //addToLayout(editButton, prev, RelativeLayout.RIGHT_OF, RelativeLayout.ALIGN_BASELINE);
             }
         }
 
 
     }
 
-    private int addToLayout(View v, int prev, int rightOrBelow) {//dodac argument below czy po prawej od ostatniego elementu
+    private int addToLayout(View v, int prev, int rightOrBelow, int alignLeftOrRight) {//dodac argument below czy po prawej od ostatniego elementu
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.see_questions);
         int curr = View.generateViewId();
         v.setId(curr);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        params.addRule(alignLeftOrRight, RelativeLayout.TRUE);
         params.addRule(rightOrBelow, prev);
         mainLayout.addView(v, params);
         return curr;
