@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<String> getAllCategories() {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "select * from " + CategoryTable.SQLITE_TABLE;
-        Log.w("DatabaseHelper", "getAllCategories()-----"+selectQuery);
+        Log.w("DatabaseHelper", "getAllCategories()-----" + selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
         List<String> result = new ArrayList<>();
         if (c.moveToFirst()) {
@@ -71,8 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     int getNumberOfQuestions(String category) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Log.w("DatabaseHelper","select * from " + QuestionsTable.SQLITE_TABLE + " where "+QuestionsTable.CATEGORY+" = "+category);
-        Cursor cursor = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where "+QuestionsTable.CATEGORY+" = ?", new String[] {category});
+        Log.w("DatabaseHelper", "select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = " + category);
+        Cursor cursor = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = ?", new String[]{category});
         int cnt = cursor.getCount();
         cursor.close();
         return cnt;
@@ -150,8 +150,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //zbierzemy id a pozniej get Question z id
         List<Long> questionsIds = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = " + category, null);
+        Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = ?", new String[]{category});
         res.moveToFirst();
+        if (res.getCount() == 0) return null;
         do {
             long id = res.getInt(res.getColumnIndex(QuestionsTable.KEY_ROWID));
             questionsIds.add(id);

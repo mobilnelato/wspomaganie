@@ -22,6 +22,8 @@
         <activity android:name=".activ.CategoryMenu"></activity>
 
         <activity android:name=".activ.categoryActiv.AddQuestionActivity"></activity>
+
+        <activity android:name=".activ.categoryActiv.PreviewQuestionsActivity"></activity>
     </application>
 
 </manifest>

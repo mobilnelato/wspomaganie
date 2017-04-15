@@ -34,16 +34,25 @@ public class PreviewQuestionsActivity extends Activity {
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         List<Question> questions = db.getAllQuestions(category);
         int prev = categoryHeader.getId();
-        for (int i = 0; i < questions.size(); i++) {
-            //dodaj text z contentem + button edit a do tego buttona daj
-            // onclick listener a temu onlcik listenerowi dasz id pytania w  kontuktorze. ten listener robi intent do edit question
+        if (questions == null) {
             TextView value = new TextView(this);
-            prev = addToLayout(value, prev, RelativeLayout.BELOW);
-            Button editButton = new Button(this);
-            editButton.setOnClickListener(new EditQuestionListener(questions.get(i).getId(), category));
-            editButton.setText("Edit");
-            prev = addToLayout(editButton, prev, RelativeLayout.RIGHT_OF);
+            value.setText("No questions yet!");
+            addToLayout(value, prev, RelativeLayout.BELOW);
+        } else {
+
+            for (int i = 0; i < questions.size(); i++) {
+                //dodaj text z contentem + button edit a do tego buttona daj
+                // onclick listener a temu onlcik listenerowi dasz id pytania w  kontuktorze. ten listener robi intent do edit question
+                TextView value = new TextView(this);
+                value.setText(questions.get(i).getContent());
+                prev = addToLayout(value, prev, RelativeLayout.BELOW);
+                Button editButton = new Button(this);
+                editButton.setOnClickListener(new EditQuestionListener(questions.get(i).getId(), category));
+                editButton.setText("Edit");
+                prev = addToLayout(editButton, prev, RelativeLayout.RIGHT_OF);
+            }
         }
+
 
     }
 

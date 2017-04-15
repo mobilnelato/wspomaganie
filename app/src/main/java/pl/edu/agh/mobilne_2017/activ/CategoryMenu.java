@@ -96,10 +96,16 @@ public class CategoryMenu extends Activity {
         }
         //no quesiotns so quiz cannot be taken
         public void errorDialog() {
-            final Dialog dialog = new Dialog(getBaseContext()); // Context, this, etc.
-            dialog.setContentView(R.layout.no_questions_layout);
-            dialog.setTitle(R.string.noquestions);
-            dialog.show();
+            new AlertDialog.Builder(CategoryMenu.this)
+                    .setTitle("No questions in database")
+                    .setMessage("Add questions first")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
     }
 
