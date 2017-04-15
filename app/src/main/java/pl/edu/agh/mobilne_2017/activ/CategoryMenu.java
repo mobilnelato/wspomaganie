@@ -28,7 +28,7 @@ public class CategoryMenu extends Activity {
 
 
         //a moze to w on rezume ???
-        category = this.getIntent().getExtras().getString("categoryId");
+        category = this.getIntent().getExtras().getString("category");
         questionsNumber = this.getIntent().getExtras().getInt("questionsNumber");
 
         TextView tv = (TextView) findViewById(R.id.categoryheader);

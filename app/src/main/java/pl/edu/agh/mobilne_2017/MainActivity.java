@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         db = new DatabaseHelper(getApplicationContext());
         Map<String, Integer> categories = db.getCategoriesWithQuestionNumbers();
         int prev = R.id.begginning;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent categoryActivity = new Intent(getBaseContext(), CategoryMenu.class);
             Bundle bundle = new Bundle();
-            bundle.putString("categoryId", category);
+            bundle.putString("category", category);
             bundle.putInt("questionsNumber", questionsNumber);
             categoryActivity.putExtras(bundle);
             startActivity(categoryActivity);

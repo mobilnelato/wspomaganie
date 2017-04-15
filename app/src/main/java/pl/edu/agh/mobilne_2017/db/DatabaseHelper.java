@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<String> getAllCategories() {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "select * from " + CategoryTable.SQLITE_TABLE;
-        Log.w("DatabaseHelper", selectQuery);
+        Log.w("DatabaseHelper", "getAllCategories()-----"+selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
         List<String> result = new ArrayList<>();
         if (c.moveToFirst()) {
@@ -71,7 +71,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     int getNumberOfQuestions(String category) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String countQuery = "select COUNT(*) from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " like " + category;
+
+        String countQuery = "select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = " + category;
+        Log.w("DatabaseHelper",countQuery);
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
@@ -150,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //zbierzemy id a pozniej get Question z id
         List<Long> questionsIds = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " like " + category, null);
+        Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = " + category, null);
         res.moveToFirst();
         do {
             long id = res.getInt(res.getColumnIndex(QuestionsTable.KEY_ROWID));

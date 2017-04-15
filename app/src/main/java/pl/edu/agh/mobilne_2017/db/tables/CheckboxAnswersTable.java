@@ -18,7 +18,7 @@ public class CheckboxAnswersTable {
                     KEY_ROWID + " integer PRIMARY KEY autoincrement, " +
                     CONTENT + " text, " +
                     QUESTION_ID + " integer, " +
-                    CORRECT + "boolean " +
+                    CORRECT + " integer " +
                     " );";
 
     public static void onCreate(SQLiteDatabase db) {
