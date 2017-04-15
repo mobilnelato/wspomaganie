@@ -115,6 +115,7 @@ public class AddQuestionActivity extends Activity {
 
             if (toggle.isChecked()) {
                 //open question
+                Log.w("NewQuestionListener","odpowiedz w otwartym"+stringAnswer.getText().toString());
                 question = new OpenQuestion(content, stringAnswer.getText().toString(), -1);
             } else {
                 boolean[] checkboxes = new boolean[4];

@@ -131,9 +131,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ClosedQuestion closedQuestion = (ClosedQuestion) q;
             for (int i = 0; i < closedQuestion.getCheckboxes().length; i++) {
                 ContentValues checkBoxValues = new ContentValues();
-                checkBoxValues.put(CheckboxAnswersTable.CONTENT, closedQuestion.getContent());
+                checkBoxValues.put(CheckboxAnswersTable.CONTENT, closedQuestion.getAnsws()[i]);
                 checkBoxValues.put(CheckboxAnswersTable.CORRECT, closedQuestion.getCheckboxes()[i]);
                 checkBoxValues.put(CheckboxAnswersTable.QUESTION_ID, Long.toString(id));
+                Log.w("DatabaseHelper", "wsawiam checkbox" + closedQuestion.getAnsws()[i] + closedQuestion.getCheckboxes()[i]);
                 db.insert(CheckboxAnswersTable.SQLITE_TABLE, null, checkBoxValues);
             }
         }
@@ -169,6 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where id=" + id, null);
         Log.w("DatabaseHelper", "select * from " + QuestionsTable.SQLITE_TABLE + " where id=" + id);
+        Log.w("DatabaseHelper", "ile znalazlo" + res.getCount());
         if (res.moveToFirst()) {
             String content = res.getString(res.getColumnIndex(QuestionsTable.CONTENT));
             QuestionType type = QuestionType.valueOf(res.getString(res.getColumnIndex(QuestionsTable.TYPE)));
@@ -178,8 +180,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 boolean[] checkboxes = new boolean[closedAnswers.getCount()];
                 String[] answs = new String[closedAnswers.getCount()];
                 int i = 0;
+                Log.w("DatabaseHelper", "znalazlem tyle checboxow do zamknietego" + closedAnswers.getCount());
                 do {
-                    checkboxes[i] = Boolean.valueOf(closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CORRECT)));
+                    Log.w("DatabaseHelper", closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CORRECT)));
+                    if (closedAnswers.getInt(closedAnswers.getColumnIndex(CheckboxAnswersTable.CORRECT)) == 1) {
+                        checkboxes[i] = true;
+                    } else {
+                        checkboxes[i] = false;
+                    }
+                    //checkboxes[i] = Boolean.valueOf(closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CORRECT)));
+                    Log.w("DatabaseHelper", "checkboxes[i]" + checkboxes[i]);
                     answs[i] = closedAnswers.getString(closedAnswers.getColumnIndex(CheckboxAnswersTable.CONTENT));
                     i++;
                 } while (closedAnswers.moveToNext());
@@ -188,6 +198,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } else if (type == QuestionType.OPEN) {
                 Cursor open = db.rawQuery("select * from " + StringAnswersTable.SQLITE_TABLE + " where " + StringAnswersTable.QUESTION_ID + "=" + id, null);
                 open.moveToFirst();
+                Log.w("DatabaseHelper", "odpowiedz w otawrtym" + open.getString(open.getColumnIndex(StringAnswersTable.CONTENT)));
                 OpenQuestion openQuestion = new OpenQuestion(content, open.getString(open.getColumnIndex(StringAnswersTable.CONTENT)), id);
                 return openQuestion;
             }

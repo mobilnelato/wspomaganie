@@ -2,6 +2,7 @@ package pl.edu.agh.mobilne_2017.activ.categoryActiv;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.model.OpenQuestion;
@@ -27,11 +29,14 @@ public class EditQuestionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_editor);
-        TextView tv = (TextView) findViewById(R.id.editorHeader);
+
+        EditText tv = (EditText) findViewById(R.id.editor_content);
+
         int prev = tv.getId();
         long questionId = this.getIntent().getExtras().getLong("questionId");
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         Question question = db.getQuestion(questionId);
+        tv.setText(question.getContent());
         Log.w("EditQuestionActivity","id pytania"+questionId);
         Log.w("EditQuestionActivity","czy jest rowne null"+(null==question));
         if (question.getType() == QuestionType.CLOSED) {
@@ -40,20 +45,31 @@ public class EditQuestionActivity extends Activity {
 
             for (int i = 0; i < ANSWS; i++) {
                 CheckBox ch1 = new CheckBox(getBaseContext());
+                ch1.setPadding(50,50,10,0);
                 ch1.setChecked(closedQuestion.getCheckboxes()[i]);
+                Log.w("EditQuestionActivity","czy jest true"+closedQuestion.getCheckboxes()[i]);
                 prev = addToLayout(ch1, prev, RelativeLayout.BELOW);
                 checkBoxes[i] = ch1;
 
                 EditText ans1 = new EditText(getBaseContext());
                 ans1.setText(closedQuestion.getAnsws()[i]);
-                prev = addToLayout(ans1, prev, RelativeLayout.RIGHT_OF);
+                Log.w("EditQuestionActivity","odpowiedz"+closedQuestion.getAnsws()[i]);
                 anws[i] = ans1;
+                RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.question_editor_layout);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.RIGHT_OF, prev);
+                params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
+                mainLayout.addView(ans1, params);
+
+
             }
 
         } else if (question.getType() == QuestionType.OPEN) {
+            OpenQuestion openQuestion = (OpenQuestion) question;
             //dodjamey textarea z contentem
             stringAnswer = new EditText(getBaseContext());
-            stringAnswer.setText(question.getContent());
+            stringAnswer.setText(openQuestion.getStringAnswer());
             addToLayout(stringAnswer, prev, RelativeLayout.BELOW);
         }
         //dodaj listener do save buttona
@@ -77,7 +93,7 @@ public class EditQuestionActivity extends Activity {
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             Log.w("SaveEditQuestionListene", "Saving edit changes on quesiton ");
             Question question = null;
-            String content = ((EditText) findViewById(R.id.new_question_content)).getText().toString();
+            String content = ((EditText) findViewById(R.id.editor_content)).getText().toString();
             if (type == QuestionType.CLOSED) {
                 //dodajemy 4 pola z tymi pytaniami
 
@@ -96,6 +112,11 @@ public class EditQuestionActivity extends Activity {
 
             }
             db.updateQuestion(question,category);
+            Intent mainActivity = new Intent(getBaseContext(), CategoryMenu.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("category", category);
+            mainActivity.putExtras(bundle);
+            startActivity(mainActivity);
         }
     }
 
