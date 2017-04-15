@@ -1,11 +1,14 @@
 package pl.edu.agh.mobilne_2017.activ;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import pl.edu.agh.mobilne_2017.MainActivity;
+import pl.edu.agh.mobilne_2017.activ.categoryActiv.AddQuestionActivity;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.R;
 
@@ -26,6 +29,9 @@ public class NewCategory extends Activity {
             EditText tv = (EditText) findViewById(R.id.newcattitle);
             Log.w("NewCategoryListener", tv.getText().toString());
             db.createCategory(tv.getText().toString());
+
+            Intent mainActivity = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(mainActivity);
         }
     }
 }

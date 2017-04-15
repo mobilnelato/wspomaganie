@@ -15,6 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activ.NewCategory"></activity>
+
+
+        <activity android:name=".activ.CategoryMenu"></activity>
+
+        <activity android:name=".activ.categoryActiv.AddQuestionActivity"></activity>
     </application>
 
 </manifest>

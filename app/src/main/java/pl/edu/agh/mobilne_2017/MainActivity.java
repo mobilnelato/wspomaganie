@@ -3,6 +3,7 @@ package pl.edu.agh.mobilne_2017;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.w("MainActivity","onclick w addcategory");
                 Intent newCategory = new Intent(getBaseContext(), NewCategory.class);
                 startActivity(newCategory);
             }

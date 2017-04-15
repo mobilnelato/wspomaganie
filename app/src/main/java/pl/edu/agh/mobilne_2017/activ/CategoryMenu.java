@@ -24,7 +24,7 @@ public class CategoryMenu extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_category_layout);
+        setContentView(R.layout.category_menu_layout);
 
 
         //a moze to w on rezume ???
