@@ -67,6 +67,10 @@ public class AddQuestionActivity extends Activity {
         Button saveButton = (Button) findViewById(R.id.savequestion);
         String category = this.getIntent().getExtras().getString("category");
         saveButton.setOnClickListener(new NewQuestionListener(category));
+
+        Button backButton = (Button) findViewById(R.id.new_question_back);
+        backButton.setOnClickListener(new BackInNewQuestionListener(category));
+
     }
 
     private void cleanLayout() {
@@ -133,12 +137,29 @@ public class AddQuestionActivity extends Activity {
                 question = new ClosedQuestion(content,checkboxes,sAnsws,-1);
             }
             db.createQuestion(question,category);
-            Intent mainActivity = new Intent(getBaseContext(), CategoryMenu.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("category", category);
-            mainActivity.putExtras(bundle);
-            startActivity(mainActivity);
+            toCategoryMenu(category);
         }
+    }
+
+
+    private class BackInNewQuestionListener implements View.OnClickListener {
+        private final String category;
+
+        public BackInNewQuestionListener(String category) {
+            this.category = category;
+        }
+
+        public void onClick(View arg0) {
+            toCategoryMenu(category);
+        }
+    }
+
+    private void toCategoryMenu(String category) {
+        Intent mainActivity = new Intent(getBaseContext(), CategoryMenu.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("category", category);
+        mainActivity.putExtras(bundle);
+        startActivity(mainActivity);
     }
 }
 
