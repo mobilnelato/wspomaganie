@@ -8,8 +8,6 @@
         android:id="@+id/results_layout_id"
 
         android:layout_height="match_parent">
-
-
         <TextView
             android:id="@+id/final_result_points"
             android:layout_width="wrap_content"
