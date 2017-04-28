@@ -8,7 +8,7 @@
     <string name="addquestion">Add new question</string>
     <string name="seequestions">Preview questions</string>
     <string name="generatequiz">Take quiz</string>
-
+    <string name="back">Back</string>
     <!--new ques-->
     <string name="saveques">Save question</string>
     <string name="questioncontent">Question:</string>
@@ -17,4 +17,8 @@
     <string name="noquestions">Add some quesitons first!</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+
+
+    backToMainActivity
 </resources>

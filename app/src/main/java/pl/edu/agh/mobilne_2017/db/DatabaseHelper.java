@@ -69,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    int getNumberOfQuestions(String category) {
+    public int getNumberOfQuestions(String category) {
         SQLiteDatabase db = this.getReadableDatabase();
         Log.w("DatabaseHelper", "select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = " + category);
         Cursor cursor = db.rawQuery("select * from " + QuestionsTable.SQLITE_TABLE + " where " + QuestionsTable.CATEGORY + " = ?", new String[]{category});

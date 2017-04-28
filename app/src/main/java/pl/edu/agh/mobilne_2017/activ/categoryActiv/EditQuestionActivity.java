@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.model.ClosedQuestion;
@@ -37,23 +36,25 @@ public class EditQuestionActivity extends Activity {
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         Question question = db.getQuestion(questionId);
         tv.setText(question.getContent());
-        Log.w("EditQuestionActivity","id pytania"+questionId);
-        Log.w("EditQuestionActivity","czy jest rowne null"+(null==question));
+        Log.w("EditQuestionActivity", "id pytania" + questionId);
+        Log.w("EditQuestionActivity", "czy jest rowne null" + (null == question));
         if (question.getType() == QuestionType.CLOSED) {
             //dodajemy 4 pola z tymi pytaniami
             ClosedQuestion closedQuestion = (ClosedQuestion) question;
 
             for (int i = 0; i < ANSWS; i++) {
                 CheckBox ch1 = new CheckBox(getBaseContext());
-                ch1.setPadding(50,50,10,0);
+                ch1.setPadding(50, 50, 10, 0);
                 ch1.setChecked(closedQuestion.getCheckboxes()[i]);
-                Log.w("EditQuestionActivity","czy jest true"+closedQuestion.getCheckboxes()[i]);
+                Log.w("EditQuestionActivity", "czy jest true" + closedQuestion.getCheckboxes()[i]);
                 prev = addToLayout(ch1, prev, RelativeLayout.BELOW);
                 checkBoxes[i] = ch1;
 
                 EditText ans1 = new EditText(getBaseContext());
+                ans1.setEms(20);
+                ans1.setHint("Answer " + (i + 1));
                 ans1.setText(closedQuestion.getAnsws()[i]);
-                Log.w("EditQuestionActivity","odpowiedz"+closedQuestion.getAnsws()[i]);
+                Log.w("EditQuestionActivity", "odpowiedz" + closedQuestion.getAnsws()[i]);
                 anws[i] = ans1;
                 RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.question_editor_layout);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -69,14 +70,28 @@ public class EditQuestionActivity extends Activity {
             OpenQuestion openQuestion = (OpenQuestion) question;
             //dodjamey textarea z contentem
             stringAnswer = new EditText(getBaseContext());
+            stringAnswer.setEms(20);
             stringAnswer.setText(openQuestion.getStringAnswer());
             addToLayout(stringAnswer, prev, RelativeLayout.BELOW);
         }
         //dodaj listener do save buttona
         String category = this.getIntent().getExtras().getString("category");
-        findViewById(R.id.editor_save_question).setOnClickListener(new SaveEditQuestionListener(question.getType(), question.getId(),category));
-
+        findViewById(R.id.editor_save_question).setOnClickListener(new SaveEditQuestionListener(question.getType(), question.getId(), category));
+        findViewById(R.id.editor_back).setOnClickListener(new BackEditQuestionListener(category));
     }
+
+    private class BackEditQuestionListener implements View.OnClickListener {
+        private final String category;
+
+        public BackEditQuestionListener(String category) {
+            this.category = category;
+        }
+
+        public void onClick(View arg0) {
+            toCategoryMenu(category);
+        }
+    }
+
 
     private class SaveEditQuestionListener implements View.OnClickListener {
         private final QuestionType type;
@@ -111,13 +126,17 @@ public class EditQuestionActivity extends Activity {
                 question = new OpenQuestion(content, stringAnswer.getText().toString(), questionId);
 
             }
-            db.updateQuestion(question,category);
-            Intent mainActivity = new Intent(getBaseContext(), CategoryMenu.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("category", category);
-            mainActivity.putExtras(bundle);
-            startActivity(mainActivity);
+            db.updateQuestion(question, category);
+            toCategoryMenu(category);
         }
+    }
+
+    private void toCategoryMenu(String category) {
+        Intent mainActivity = new Intent(getBaseContext(), CategoryMenu.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("category", category);
+        mainActivity.putExtras(bundle);
+        startActivity(mainActivity);
     }
 
     private int addToLayout(View v, int prev, int rightOrBelow) {//dodac argument below czy po prawej od ostatniego elementu

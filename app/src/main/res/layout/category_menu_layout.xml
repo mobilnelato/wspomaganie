@@ -6,26 +6,34 @@
     <TextView android:id="@+id/categoryheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="13dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:layout_marginTop="90dp"
+        android:textColor="#000000"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
     <Button android:id="@+id/generatequiz" style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/categoryheader"
         android:text="@string/generatequiz" />
 
     <Button android:id="@+id/seequestions" style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/generatequiz" android:text="@string/seequestions" />
 
     <Button android:id="@+id/addquestion" style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_below="@+id/seequestions"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
        android:text="@string/addquestion" />
+
+    <Button android:id="@+id/backToMainActivity" style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_below="@+id/addquestion"
+        android:layout_centerHorizontal="true"
+        android:text="@string/back" />
 
 </RelativeLayout>

@@ -43,6 +43,8 @@ public class AddQuestionActivity extends Activity {
                 cleanLayout();
                 if (isChecked) {
                     stringAnswer = new EditText(getBaseContext());
+                    stringAnswer.setHint("Expected answer");
+                    stringAnswer.setEms(20);
                     addToLayout(stringAnswer, toggle.getId(), RelativeLayout.BELOW);
                 } else {
                     // The toggle is disabled closed question
@@ -52,6 +54,8 @@ public class AddQuestionActivity extends Activity {
                         checkBoxes[i] = ch1;
                         prev = addToLayout(ch1, prev, RelativeLayout.BELOW);
                         EditText ans1 = new EditText(getBaseContext());
+                        ans1.setEms(20);
+                        ans1.setHint("Answer "+(i+1));
                         prev = addToLayout(ans1, prev, RelativeLayout.BELOW);
                         anws[i]= ans1;
                     }

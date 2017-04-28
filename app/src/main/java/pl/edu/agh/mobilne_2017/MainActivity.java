@@ -14,7 +14,6 @@ import java.util.Map;
 import pl.edu.agh.mobilne_2017.activ.CategoryMenu;
 import pl.edu.agh.mobilne_2017.activ.NewCategory;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
-import pl.edu.agh.mobilne_2017.db.tables.QuestionsTable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
 
     @Override

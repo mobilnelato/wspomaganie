@@ -12,10 +12,12 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import pl.edu.agh.mobilne_2017.MainActivity;
 import pl.edu.agh.mobilne_2017.R;
 import pl.edu.agh.mobilne_2017.activ.categoryActiv.AddQuestionActivity;
 import pl.edu.agh.mobilne_2017.activ.categoryActiv.PreviewQuestionsActivity;
 import pl.edu.agh.mobilne_2017.activ.categoryActiv.TakeQuizActivity;
+import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 
 public class CategoryMenu extends Activity {
     private String category;
@@ -25,19 +27,30 @@ public class CategoryMenu extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_menu_layout);
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
         //a moze to w on rezume ???
         category = this.getIntent().getExtras().getString("category");
-        questionsNumber = this.getIntent().getExtras().getInt("questionsNumber");
-
+        questionsNumber =  new DatabaseHelper(getApplicationContext()).getNumberOfQuestions(category);
         TextView tv = (TextView) findViewById(R.id.categoryheader);
         tv.setText("Category: " + category);
         findViewById(R.id.generatequiz).setOnClickListener(new TakeQuizListener(category, questionsNumber));
         findViewById(R.id.seequestions).setOnClickListener(new PreviewQuestionsListener(category));
         findViewById(R.id.addquestion).setOnClickListener(new NewQuestionListener(category));
-
+        findViewById(R.id.backToMainActivity).setOnClickListener(new BackToMainActivityListener());
     }
+
+    private class BackToMainActivityListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent categoryActivity = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(categoryActivity);
+        }
+    }
+
 
     private class NewQuestionListener implements View.OnClickListener {
 

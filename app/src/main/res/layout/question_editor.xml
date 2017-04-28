@@ -9,7 +9,10 @@
         android:layout_centerHorizontal="true"
         android:text="@string/questioncontent"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="10dp" />
+        android:textSize="20dp"
+        android:layout_marginTop="100dp"
+        android:textColor="#000000"
+        />
 
 
 
@@ -24,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Answer:"
+        android:textColor="#000000"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/editor_content"/>
 
@@ -31,6 +35,13 @@
     <Button android:id="@+id/editor_save_question" style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="21dp" android:layout_marginTop="13dp"
+        android:layout_marginRight="20dp" android:layout_marginTop="20dp"
         android:text="@string/savecat" />
+
+
+    <Button android:id="@+id/editor_back" style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp" android:layout_marginTop="20dp"
+        android:text="@string/back" />
 </RelativeLayout>
