@@ -1,11 +1,13 @@
 package pl.edu.agh.mobilne_2017.activ.categoryActiv;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import pl.edu.agh.mobilne_2017.MainActivity;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
 import pl.edu.agh.mobilne_2017.model.Answer;
 import pl.edu.agh.mobilne_2017.model.ClosedAnswer;
@@ -250,6 +253,7 @@ public class TakeQuizActivity extends Activity {
         for (int i = 0; i < quizSize; i++) {
             TextView content = new TextView(getBaseContext());
             content.setText(questions.get(i).getContent());
+            content.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             if (questionResult[i]) {
                 content.setTextColor(Color.GREEN);
             } else {
@@ -257,6 +261,12 @@ public class TakeQuizActivity extends Activity {
             }
             prev = addResultToLayout(content, prev);
         }
+
+
+        Button backButton = new Button(getBaseContext());
+        backButton.setText("Back to Menu");
+        backButton.setOnClickListener(new BackToMainMenuButtonListener());
+        addResultToLayout(backButton,prev);
     }
 
 
@@ -270,5 +280,14 @@ public class TakeQuizActivity extends Activity {
         params.addRule(RelativeLayout.BELOW, prev);
         mainLayout.addView(v, params);
         return curr;
+    }
+
+    class BackToMainMenuButtonListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            Intent mainActivity = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(mainActivity);
+        }
     }
 }
