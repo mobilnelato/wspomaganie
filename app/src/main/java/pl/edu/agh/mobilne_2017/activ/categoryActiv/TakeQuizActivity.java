@@ -97,7 +97,7 @@ public class TakeQuizActivity extends Activity {
         } else if (q.getType() == QuestionType.OPEN) {
             currOpenQuestionAns = new EditText(getBaseContext());
             currOpenQuestionAns.setEms(30);
-            addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout,true);
+            addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout,false);
         }
     }
 
@@ -160,10 +160,11 @@ public class TakeQuizActivity extends Activity {
         v.setId(curr);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         params.addRule(rightOrBelow, prev);
         if(isCheckbox){
             params.addRule(RelativeLayout.ALIGN_LEFT,R.id.quiz_taking_prev_button);
+        }else{
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         }
         mainLayout.addView(v, params);
         return curr;
@@ -254,7 +255,20 @@ public class TakeQuizActivity extends Activity {
             } else {
                 content.setTextColor(Color.RED);
             }
-            prev = addToLayout(content, prev, RelativeLayout.BELOW,R.id.results_layout_id,false);
+            prev = addResultToLayout(content, prev);
         }
+    }
+
+
+    private int addResultToLayout(View v, int prev) {//dodac argument below czy po prawej od ostatniego elementu
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.results_layout_id);
+        int curr = View.generateViewId();
+        v.setId(curr);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.BELOW, prev);
+        mainLayout.addView(v, params);
+        return curr;
     }
 }
