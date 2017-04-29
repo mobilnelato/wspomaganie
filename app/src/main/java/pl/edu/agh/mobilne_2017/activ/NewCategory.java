@@ -23,6 +23,8 @@ public class NewCategory extends Activity {
         findViewById(R.id.savecat).setOnClickListener(new NewCategoryListener());
     }
 
+
+
     private class NewCategoryListener implements View.OnClickListener {
         public void onClick(View arg0) {
             db = new DatabaseHelper(getApplicationContext());
