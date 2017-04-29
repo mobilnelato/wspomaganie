@@ -75,18 +75,16 @@ public class TakeQuizActivity extends Activity {
             ClosedQuestion closed = (ClosedQuestion) q;
             //dodac 4 razy checkbox i tekst
             for (int i = 0; i < 4; i++) {
-                answerTexts[i] = new TextView(getBaseContext());
-                answerTexts[i].setTextColor(Color.parseColor("#000000"));
-                answerTexts[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                answerTexts[i].setText(closed.getAnsws()[i]);
+
                // addToLayout(answerTexts[i], prev, RelativeLayout.RIGHT_OF);
-
-
 
                 CheckBox ch1 = new CheckBox(getBaseContext());
                 prev = addToLayout(ch1, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout,true);
                 checkBoxes[i] = ch1;
-
+                answerTexts[i] = new TextView(getBaseContext());
+                answerTexts[i].setTextColor(Color.parseColor("#000000"));
+                answerTexts[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                answerTexts[i].setText(closed.getAnsws()[i]);
 
                 RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.quiz_taking_layout);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -98,6 +96,7 @@ public class TakeQuizActivity extends Activity {
             }
         } else if (q.getType() == QuestionType.OPEN) {
             currOpenQuestionAns = new EditText(getBaseContext());
+            currOpenQuestionAns.setEms(30);
             addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout,true);
         }
     }
