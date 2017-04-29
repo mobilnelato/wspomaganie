@@ -9,8 +9,9 @@
         android:id="@+id/quiz_taking_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="110dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="40dp"
         android:text="Prev" />
 
     <TextView
@@ -28,7 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="2dp"
+        android:textColor="#000000"
+        android:textSize="20dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -38,6 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="40dp"
         android:text="Next" />
 </RelativeLayout>

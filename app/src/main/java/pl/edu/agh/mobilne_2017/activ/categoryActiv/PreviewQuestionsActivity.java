@@ -49,7 +49,7 @@ public class PreviewQuestionsActivity extends Activity {
                 // onclick listener a temu onlcik listenerowi dasz id pytania w  kontuktorze. ten listener robi intent do edit question
                 TextView value = new TextView(this);
                 value.setText(i + ")" + questions.get(i).getContent());
-                value.setPadding(50, 50, 50, 0);
+                value.setPadding(80, 50, 0, 0);
                 value.setTextColor(Color.parseColor("#000000"));
                 value.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 prev = addToLayout(value, prev, RelativeLayout.BELOW, RelativeLayout.ALIGN_PARENT_LEFT);

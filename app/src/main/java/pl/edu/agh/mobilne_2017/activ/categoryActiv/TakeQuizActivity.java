@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -75,15 +76,17 @@ public class TakeQuizActivity extends Activity {
             //dodac 4 razy checkbox i tekst
             for (int i = 0; i < 4; i++) {
                 answerTexts[i] = new TextView(getBaseContext());
+                answerTexts[i].setTextColor(Color.parseColor("#000000"));
+                answerTexts[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 answerTexts[i].setText(closed.getAnsws()[i]);
                // addToLayout(answerTexts[i], prev, RelativeLayout.RIGHT_OF);
 
 
 
                 CheckBox ch1 = new CheckBox(getBaseContext());
-                ch1.setPadding(50,50,10,0);
-                prev = addToLayout(ch1, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout);
+                prev = addToLayout(ch1, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout,true);
                 checkBoxes[i] = ch1;
+
 
                 RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.quiz_taking_layout);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -95,7 +98,7 @@ public class TakeQuizActivity extends Activity {
             }
         } else if (q.getType() == QuestionType.OPEN) {
             currOpenQuestionAns = new EditText(getBaseContext());
-            addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout);
+            addToLayout(currOpenQuestionAns, prev, RelativeLayout.BELOW,R.id.quiz_taking_layout,true);
         }
     }
 
@@ -152,7 +155,7 @@ public class TakeQuizActivity extends Activity {
     //sprawdzanie wyniku i wyswitlanie w osobnym layoucie n
     //selecty w helperze
 
-    private int addToLayout(View v, int prev, int rightOrBelow,int layoutId) {//dodac argument below czy po prawej od ostatniego elementu
+    private int addToLayout(View v, int prev, int rightOrBelow,int layoutId,boolean isCheckbox) {//dodac argument below czy po prawej od ostatniego elementu
         RelativeLayout mainLayout = (RelativeLayout) findViewById(layoutId);
         int curr = View.generateViewId();
         v.setId(curr);
@@ -160,6 +163,9 @@ public class TakeQuizActivity extends Activity {
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         params.addRule(rightOrBelow, prev);
+        if(isCheckbox){
+            params.addRule(RelativeLayout.ALIGN_LEFT,R.id.quiz_taking_prev_button);
+        }
         mainLayout.addView(v, params);
         return curr;
     }
@@ -249,7 +255,7 @@ public class TakeQuizActivity extends Activity {
             } else {
                 content.setTextColor(Color.RED);
             }
-            prev = addToLayout(content, prev, RelativeLayout.BELOW,R.id.results_layout_id);
+            prev = addToLayout(content, prev, RelativeLayout.BELOW,R.id.results_layout_id,false);
         }
     }
 }
