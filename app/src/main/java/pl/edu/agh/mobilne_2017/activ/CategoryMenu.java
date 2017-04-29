@@ -32,7 +32,6 @@ public class CategoryMenu extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        //a moze to w on rezume ???
         category = this.getIntent().getExtras().getString("category");
         questionsNumber =  new DatabaseHelper(getApplicationContext()).getNumberOfQuestions(category);
         TextView tv = (TextView) findViewById(R.id.categoryheader);

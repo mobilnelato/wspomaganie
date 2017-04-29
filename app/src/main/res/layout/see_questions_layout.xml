@@ -8,8 +8,14 @@
         android:layout_width="match_parent"
         android:id="@+id/see_questions"
         android:layout_height="match_parent">
-        <TextView android:id="@+id/see_questions_header" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_marginTop="13dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView android:id="@+id/see_questions_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            />
     </RelativeLayout>
 </ScrollView>

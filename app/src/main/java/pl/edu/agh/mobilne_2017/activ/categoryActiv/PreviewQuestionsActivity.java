@@ -2,8 +2,10 @@ package pl.edu.agh.mobilne_2017.activ.categoryActiv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -48,6 +50,8 @@ public class PreviewQuestionsActivity extends Activity {
                 TextView value = new TextView(this);
                 value.setText(i + ")" + questions.get(i).getContent());
                 value.setPadding(50, 50, 50, 0);
+                value.setTextColor(Color.parseColor("#000000"));
+                value.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 prev = addToLayout(value, prev, RelativeLayout.BELOW, RelativeLayout.ALIGN_PARENT_LEFT);
                 Button editButton = new Button(this);
                 editButton.setId(View.generateViewId());
@@ -57,8 +61,8 @@ public class PreviewQuestionsActivity extends Activity {
                 RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.see_questions);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.RIGHT_OF, prev);
-                params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
+                params.addRule(RelativeLayout.BELOW, prev);
+                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 mainLayout.addView(editButton, params);
 
 
@@ -70,9 +74,9 @@ public class PreviewQuestionsActivity extends Activity {
                 params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.RIGHT_OF, editButton.getId());
-                params.addRule(RelativeLayout.ALIGN_BASELINE, prev);
+                params.addRule(RelativeLayout.ALIGN_BASELINE, editButton.getId());
                 mainLayout.addView(deleteButton, params);
-
+                prev =editButton.getId();
                 //addToLayout(editButton, prev, RelativeLayout.RIGHT_OF, RelativeLayout.ALIGN_BASELINE);
             }
         }
