@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import pl.edu.agh.mobilne_2017.MainActivity;
 import pl.edu.agh.mobilne_2017.db.DatabaseHelper;
@@ -36,6 +38,8 @@ public class TakeQuizActivity extends Activity {
     int currentQuestion = 0;
     int quizSize;
     List<Question> questions;
+    TextView textViewTimer;
+    CounterClass timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +67,37 @@ public class TakeQuizActivity extends Activity {
         findViewById(R.id.quiz_taking_prev_button).setOnClickListener(new PreviousQuestionListener());
         findViewById(R.id.quiz_taking_next_button).setOnClickListener(new NextQuestionListener());
         //odpowiedziami bedzi list<Answers>
+
+        //counter
+        textViewTimer = (TextView) findViewById(R.id.textViewTimer);
+        timer = new CounterClass(15000 * quizSize + 7000, 1000);
+        timer.start();
     }
 
+    public class CounterClass extends CountDownTimer {
+
+        public CounterClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            System.out.println("QUIZ SIZE  "  + quizSize);
+            System.out.println("millisInFuture " + millisInFuture + " countDownInterval " + countDownInterval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(l),
+                    TimeUnit.MILLISECONDS.toMinutes(l) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(l)),
+                    TimeUnit.MILLISECONDS.toSeconds(l) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)));
+            System.out.println(hms);
+            textViewTimer.setText(hms);
+        }
+
+        @Override
+        public void onFinish() {
+            textViewTimer.setText("End of time!");
+            saveAnswer();
+            showFinalResults();
+        }
+    }
 
     private void setQuestionInLayout(Question q) {
         cleanLayout();
@@ -144,6 +177,7 @@ public class TakeQuizActivity extends Activity {
                 findViewById(R.id.quiz_taking_prev_button).setEnabled(true);
             }
             if (currentQuestion == quizSize) {
+                timer.cancel();
                 showFinalResults();
             }else{
                 setQuestionInLayout(questions.get(currentQuestion));
@@ -200,23 +234,25 @@ public class TakeQuizActivity extends Activity {
         //sprawdz odpowiedzi, wywswietl liste
 
         for (int currAns = 0; currAns < quizSize; currAns++) {
-            Question q = questions.get(currAns);
-            Answer a = answers[currAns];
-            if (q.getType() == QuestionType.OPEN) {
-                OpenQuestion openQuestion = (OpenQuestion) q;
-                OpenAnswer openAnswer = (OpenAnswer) a;
-                if (openQuestion.getStringAnswer().equalsIgnoreCase(openAnswer.getVal())) {
-                    points++;
-                    questionResult[currAns] = true;
-                } else {
-                    questionResult[currAns] = false;
-                }
-            } else if (q.getType() == QuestionType.CLOSED) {
-                ClosedQuestion closedQuestion = (ClosedQuestion) q;
-                ClosedAnswer closedAnswer = (ClosedAnswer) a;
-                questionResult[currAns] = areEqual(closedQuestion.getCheckboxes(), closedAnswer.getCheckboxes());
-                if (questionResult[currAns]) {
-                    points++;
+            if (answers[currAns] != null) {
+                Question q = questions.get(currAns);
+                Answer a = answers[currAns];
+                if (q.getType() == QuestionType.OPEN) {
+                    OpenQuestion openQuestion = (OpenQuestion) q;
+                    OpenAnswer openAnswer = (OpenAnswer) a;
+                    if (openQuestion.getStringAnswer().equalsIgnoreCase(openAnswer.getVal())) {
+                        points++;
+                        questionResult[currAns] = true;
+                    } else {
+                        questionResult[currAns] = false;
+                    }
+                } else if (q.getType() == QuestionType.CLOSED) {
+                    ClosedQuestion closedQuestion = (ClosedQuestion) q;
+                    ClosedAnswer closedAnswer = (ClosedAnswer) a;
+                    questionResult[currAns] = areEqual(closedQuestion.getCheckboxes(), closedAnswer.getCheckboxes());
+                    if (questionResult[currAns]) {
+                        points++;
+                    }
                 }
             }
         }
@@ -250,6 +286,7 @@ public class TakeQuizActivity extends Activity {
         //dodaj calycontent do wodiku
         //jeszcze scrypty i testowanie
         int prev = textView.getId();
+        prev = addResultToLayout(new TextView(getBaseContext()), prev);
         for (int i = 0; i < quizSize; i++) {
             TextView content = new TextView(getBaseContext());
             content.setText(questions.get(i).getContent());
